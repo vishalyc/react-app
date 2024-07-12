@@ -2,6 +2,9 @@
   "name": "react-app",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+        "node": "20.x"
+  },
   "dependencies": {
     "@aws-cdk/aws-codebuild": "^1.204.0",
     "@aws-cdk/aws-codepipeline": "^1.204.0",
