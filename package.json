@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-        "node": "20.x"
+        "node": "12.x"
   },
   "dependencies": {
     "@aws-cdk/aws-codebuild": "^1.204.0",
