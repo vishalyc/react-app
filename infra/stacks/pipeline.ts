@@ -15,11 +15,12 @@ export class Pipeline extends CDK.Stack {
   constructor(scope: CDK.App, id: string, props: PipelineProps) {
     super(scope, id, props)
 
-    // Amazon S3 bucket to store CRA website
-    const bucketWebsite = new S3.Bucket(this, 'Files', {
+    // Amazon S3 bucket to store website
+    const bucketWebsite = new S3.Bucket(this, 'react-app-cicd-demo', {
       websiteIndexDocument: 'index.html',
       websiteErrorDocument: 'error.html',
-      publicReadAccess: true,
+      versioned: true,
+      publicReadAccess: false,
     })
 
     // AWS CodeBuild artifacts
@@ -28,7 +29,7 @@ export class Pipeline extends CDK.Stack {
 
     // AWS CodePipeline pipeline
     const pipeline = new CodePipeline.Pipeline(this, 'Pipeline', {
-      pipelineName: 'Website',
+      pipelineName: 'react-app-cicd-demo',
       restartExecutionOnUpdate: true,
     })
 
@@ -36,13 +37,13 @@ export class Pipeline extends CDK.Stack {
     pipeline.addStage({
       stageName: 'Source',
       actions: [
-        new CodePipelineAction.GitHubSourceAction({
-          actionName: 'Checkout',
-          owner: props.github.owner,
-          repo: props.github.repository,
-          oauthToken: CDK.SecretValue.secretsManager('GitHubToken'),
+        new CodePipelineAction.CodeStarConnectionsSourceAction({
+          actionName: "Github_Source",
+          owner: "vishalyc",
+          repo: "react-app",
+          branch: "main",
           output: outputSources,
-          trigger: CodePipelineAction.GitHubTrigger.WEBHOOK,
+          connectionArn: "arn:aws:codeconnections:us-east-1:537761441911:connection/4b2d9fa3-2410-46c3-8e50-b2b35d95fcf8"
         }),
       ],
     })
@@ -53,9 +54,14 @@ export class Pipeline extends CDK.Stack {
       actions: [
         // AWS CodePipeline action to run CodeBuild project
         new CodePipelineAction.CodeBuildAction({
-          actionName: 'Website',
+          actionName: 'Build',
           project: new CodeBuild.PipelineProject(this, 'BuildWebsite', {
-            projectName: 'Website',
+            environment: {
+              buildImage: CodeBuild.LinuxBuildImage.AMAZON_LINUX_2_2,
+              privileged: true,
+              computeType: CodeBuild.ComputeType.SMALL
+            },
+            projectName: 'react-app-cicd-demo',
             buildSpec: CodeBuild.BuildSpec.fromSourceFilename('./infra/buildspec.yml'),
           }),
           input: outputSources,
@@ -70,16 +76,16 @@ export class Pipeline extends CDK.Stack {
       actions: [
         // AWS CodePipeline action to deploy CRA website to S3
         new CodePipelineAction.S3DeployAction({
-          actionName: 'Website',
+          actionName: 'Deploy',
           input: outputWebsite,
           bucket: bucketWebsite,
         }),
       ],
     })
 
-    new CDK.CfnOutput(this, 'WebsiteURL', {
+    /*new CDK.CfnOutput(this, 'WebsiteURL', {
       value: bucketWebsite.bucketWebsiteUrl,
       description: 'Website URL',
-    })
+    })*/
   }
 }

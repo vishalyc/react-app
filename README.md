@@ -1,99 +1,70 @@
-# CRA Pipeline
+# Getting Started with Create React App
 
-[![MIT License](https://badgen.now.sh/badge/License/MIT/blue)](https://github.com/sbstjn/cra-pipeline/blob/master/LICENSE.md)
-[![Read Tutorial](https://badgen.now.sh/badge/Read/Tutorial/orange)](https://sbstjn.com/deploy-react-cra-with-cdk-codepipeline-and-codebuild.html)
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-> Example [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html) project to deploy a TypeScript SPA created with [create-react-app](https://github.com/facebook/create-react-app) using [AWS CodePipeline](https://aws.amazon.com/codepipeline/) and [AWS CodeBuild](https://aws.amazon.com/codebuild/). Of course, [styled-components](https://styled-components.com/) is included as well …
->
-> [http://pipeline-files8e6940b8-tyzn4y41xz9l.s3-website-us-east-1.amazonaws.com](http://pipeline-files8e6940b8-tyzn4y41xz9l.s3-website-us-east-1.amazonaws.com/)
+## Available Scripts
 
-## Architecture
+In the project directory, you can run:
 
-### Components
+### `npm start`
 
-- [create-react-app](https://github.com/facebook/create-react-app) using TypeScript
-- React SPA with [styled-components](https://styled-components.com/)
-- [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html) for infrastructure
-- [AWS CodePipeline](https://aws.amazon.com/codepipeline/) with GitHub hook
-- Amazon S3 bucket for website hosting
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## Usage
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-```bash
-$ > yarn cdk deploy Pipeline
+### `npm test`
 
-Pipeline: deploying...
-Pipeline: creating CloudFormation changeset...
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-✅  Pipeline
+### `npm run build`
 
-Outputs:
-Pipeline.WebsiteURL = http://pipeline-files8e6940b8-3p9gac9qjzax.s3-website-us-east-1.amazonaws.com
-```
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-### Configuration
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-```js
-// Edit ./config.ts
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-export const config = {
-  github: {
-    owner: 'sbstjn',
-    repository: 'cra-pipeline',
-  },
-  env: { region: 'us-east-1' },
-}
-```
+### `npm run eject`
 
-## Preliminaries
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-### Install AWS CDK
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-```bash
-# Using NPM
-$ > npm install -g aws-cdk
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-# Using Yarn
-$ > yarn global add aws-cdk
-```
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-### Configure AWS CLI
+## Learn More
 
-Generate an `Access Key` and `Secret Access Key` for your AWS account.
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-```bash
-$ > export AWS_ACCESS_KEY_ID="…"
-$ > export AWS_SECRET_ACCESS_KEY="…"
-$ > export AWS_SESSION_TOKEN="…"
-```
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Bootstrap AWS CDK
+### Code Splitting
 
-```bash
-$ > yarn cdk bootstrap --region us-east-1
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-⏳  Bootstrapping environment aws://123456789001/us-east-1...
+### Analyzing the Bundle Size
 
-0/2 | 5:06:49 PM | CREATE_IN_PROGRESS   | AWS::S3::Bucket | StagingBucket
-0/2 | 5:06:50 PM | CREATE_IN_PROGRESS   | AWS::S3::Bucket | StagingBucket Resource creation Initiated
-1/2 | 5:07:11 PM | CREATE_COMPLETE      | AWS::S3::Bucket | StagingBucket
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-✅  Environment aws://123456789001/us-east-1 bootstrapped.
-```
+### Making a Progressive Web App
 
-### Configure GitHub Token
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-Create a [personal access token in GitHub](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) and store it in [AWS SecretsManager](https://aws.amazon.com/secrets-manager/). The token needs permissions to read your (private) repositories and configure webhooks.
+### Advanced Configuration
 
-```bash
-$ > aws secretsmanager create-secret \
-    --name GitHubToken \
-    --secret-string abcdefg1234abcdefg56789abcdefg \
-    --region us-east-1
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-{
-  "ARN": "arn:aws:secretsmanager:us-east-1:123456789001:secret:GitHubToken-uNBxTr",
-  "Name": "GitHubToken",
-  "VersionId": "4acda3d1-877f-4032-b38e-17bc50239883"
-}
-```
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
