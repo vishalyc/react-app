@@ -20,7 +20,9 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
     "yarn": "^1.22.22",
-    "typescript": "~3.9.7"
+    "typescript": "~3.9.7",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
